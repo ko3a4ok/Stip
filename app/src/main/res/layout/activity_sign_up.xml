@@ -21,7 +21,7 @@
         android:visibility="gone"/>
 
     <ScrollView
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="25dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_gravity="center_horizontal"
@@ -48,6 +48,15 @@
                 android:layout_height="100dp"/>
 
 
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_name"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
             <AutoCompleteTextView
                 android:layout_marginTop="10dp"
                 android:id="@+id/email"
@@ -64,8 +73,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"/>
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/password2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password_2"
                 android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeActionLabel="@string/action_sign_up_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -77,12 +96,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:text="@string/action_sign_up"
                 android:textColor="#fff"/>
         </LinearLayout>
         </android.support.v7.widget.CardView>
     </ScrollView>
-    <include layout="@layout/sign_up_link" />
+    <include layout="@layout/sign_in_link" />
 
 </LinearLayout>
 

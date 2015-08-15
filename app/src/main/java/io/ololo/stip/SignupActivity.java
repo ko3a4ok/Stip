@@ -13,8 +13,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build.VERSION;
 import android.os.Build;
+import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class SignupActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -51,8 +51,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 //    private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private EditText mName;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mPassword2View;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -66,13 +68,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             onLogined(this);
             return;
         }
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_up);
         queue = Volley.newRequestQueue(this);
         // Set up the login form.
+        mName = (EditText) findViewById(R.id.name);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
+        mPassword2View = (EditText) findViewById(R.id.password2);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -119,8 +123,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
+        String name = mName.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String password2 = mPassword2View.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -129,6 +135,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
+            cancel = true;
+        }
+
+        if (!TextUtils.equals(password, password2)) {
+            mPassword2View.setError(getString(R.string.error_password_not_equeals));
+            focusView = mPassword2View;
             cancel = true;
         }
 
@@ -153,19 +165,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(true);
             JSONObject o = new JSONObject();
             try {
+                o.put("name", name);
                 o.put("email", email);
                 o.put("password", password);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            queue.add(new StipRequest(Request.Method.POST, StipRequest.LOGIN, o, new Response.Listener<JSONObject>() {
+            queue.add(new StipRequest(Request.Method.POST, StipRequest.SIGN_UP, o, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     String token = response.optString("token");
                     showProgress(false);
                     System.err.println("TOKEN = " + token);
                     ((StipApplication)getApplication()).storeToken(token);
-                    onLogined(LoginActivity.this);
+                    onLogined(SignupActivity.this);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -199,7 +212,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -304,7 +317,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(LoginActivity.this,
+                new ArrayAdapter<String>(SignupActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -314,8 +327,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         ctx.startActivity(new Intent(ctx, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
-    public void onSignUp(View v) {
-        startActivity(new Intent(this, SignupActivity.class));
+
+    public void onSignIn(View v) {
+        onBackPressed();
     }
+
 }
 

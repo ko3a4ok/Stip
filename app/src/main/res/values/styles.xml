@@ -6,6 +6,8 @@
         <item name="android:textViewStyle">@style/MyTextViewStyle</item>
         <item name="colorPrimaryDark">#07c</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:editTextStyle">@style/App_EditTextStyle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/App_EditTextStyle</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -21,6 +23,13 @@
         <item name="android:background">@color/primary</item>
         <item name="background">@color/primary</item>
     </style>
+
+    <style name="App_EditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/edit_bg</item>
+        <item name="android:paddingLeft">10dp</item>
+
+    </style>
+
 
 
 </resources>
