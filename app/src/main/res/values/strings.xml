@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Stip</string>
+
+    <string name="title_section1">Customers</string>
+    <string name="title_section2">Agenda</string>
+    <string name="title_section3">Inventory</string>
+    <string name="title_section4">Notifications</string>
+    <string name="title_section5">My Profile</string>
+    <string name="title_section6">Settings</string>
+    <string name="title_section7">Logout</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
