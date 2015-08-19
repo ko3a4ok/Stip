@@ -3,9 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#ccc"
+    android:clickable="true"
+    android:onClick="onInventoryClick"
     android:layout_height="120dp">
     >
     <TextView android:id="@+id/inventory_id"
+              android:visibility="gone"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/inventory_data"
               android:visibility="gone"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
@@ -33,11 +39,12 @@
               android:layout_height="wrap_content"/>
 
     <ImageButton
-        android:src="@android:drawable/ic_menu_add"
-        android:background="@drawable/add_bg"
+        android:src="@drawable/ic_blue_add"
+        android:background="@android:color/transparent"
         android:layout_margin="5dp"
+        android:scaleType="centerInside"
         android:layout_gravity="bottom|right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
 
 </android.support.v7.widget.CardView>

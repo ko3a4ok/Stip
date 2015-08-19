@@ -189,7 +189,7 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor> 
                     mPasswordView.requestFocus();
 
                 }
-            }));
+            }, null));
 
         }
     }

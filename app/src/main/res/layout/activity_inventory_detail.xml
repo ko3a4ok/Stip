@@ -1,0 +1,182 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+            android:fillViewport="false"
+            android:measureAllChildren="false">
+    <LinearLayout
+        android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin">
+        <TextView
+            android:layout_margin="5dp"
+            android:textAllCaps="true"
+            android:text="@string/part_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="#000">
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_name"
+                    android:text="NAME"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_name"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/line" android:layout_width="fill_parent" android:layout_height="1px"/>
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_barcode"
+                    android:text="BARCODE"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_barcode"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/line" android:layout_width="fill_parent" android:layout_height="1px"/>
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_image"
+                    android:text="IMAGE"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <ImageView
+                    android:id="@+id/detail_image"
+                    style="@style/DetailEdit"
+                    android:src="@drawable/default_inventory"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/shadow" android:layout_width="fill_parent" android:layout_height="5dp"/>
+        </TableLayout>
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:id="@+id/last_modified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_margin="5dp"
+            android:textAllCaps="true"
+            android:text="@string/part_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="#000">
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_description"
+                    android:text="DESCRIPTION"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_description"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/line" android:layout_width="fill_parent" android:layout_height="1px"/>
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_category"
+                    android:text="CATEGORY"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_category"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/line" android:layout_width="fill_parent" android:layout_height="1px"/>
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_internal_id"
+                    android:text="INTERNAL ID"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_internal_id"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/shadow" android:layout_width="fill_parent" android:layout_height="5dp"/>
+        </TableLayout>
+
+        <TextView
+            android:layout_margin="5dp"
+            android:textAllCaps="true"
+            android:text="@string/part_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="#000">
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_quantity"
+                    android:text="QUANTITY"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_quantity"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/line" android:layout_width="fill_parent" android:layout_height="1px"/>
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_cost"
+                    android:text="UNIT COST"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_cost"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/line" android:layout_width="fill_parent" android:layout_height="1px"/>
+            <LinearLayout android:layout_width="fill_parent">
+                <TextView
+                    style="@style/DetailLabel"
+                    android:drawableTop="@drawable/ic_price"
+                    android:text="UNIT PRICE"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/detail_label_width"/>
+                <EditText
+                    android:id="@+id/detail_price"
+                    style="@style/DetailEdit"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"/>
+            </LinearLayout>
+            <include layout="@layout/shadow" android:layout_width="fill_parent" android:layout_height="5dp"/>
+        </TableLayout>
+    </LinearLayout>
+</ScrollView>

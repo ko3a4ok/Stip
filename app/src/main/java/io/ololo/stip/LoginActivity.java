@@ -176,7 +176,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     mPasswordView.requestFocus();
 
                 }
-            }));
+            }, null));
 
         }
     }

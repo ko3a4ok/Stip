@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="io.ololo.stip.InventoryDetailActivity">
+    <item android:id="@+id/action_edit"
+          android:icon="@drawable/ic_menu_edit"
+          android:orderInCategory="100"
+          app:showAsAction="always"
+          android:title="Edit"/>
+    <item
+        android:visible="false"
+        android:id="@+id/action_save"
+          android:icon="@drawable/ic_menu_save"
+          android:orderInCategory="100"
+          app:showAsAction="always"
+          android:title="Save"/>
+</menu>

@@ -2,6 +2,7 @@ package io.ololo.stip.fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,9 +41,9 @@ import java.util.Map;
 
 import io.ololo.stip.MainActivity;
 import io.ololo.stip.R;
+import io.ololo.stip.StipApplication;
 import io.ololo.stip.StipArrayRequest;
 import io.ololo.stip.StipRequest;
-import io.ololo.stip.fragments.dummy.InventoryContent;
 
 /**
  * A fragment representing a list of Items.
@@ -53,7 +54,7 @@ import io.ololo.stip.fragments.dummy.InventoryContent;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class InventoryFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class InventoryFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -96,8 +97,8 @@ public class InventoryFragment extends Fragment implements AbsListView.OnItemCli
     public InventoryFragment() {
     }
     ImageLoader imageLoader;
-    private static final String[] FROM = {"id", "name", "logo", "quantity"};
-    private static final int[] TO = {R.id.inventory_id, R.id.inventory_title, R.id.inventory_logo, R.id.inventory_quantity};
+    private static final String[] FROM = {"id", "name", "logo", "quantity", "data"};
+    private static final int[] TO = {R.id.inventory_id, R.id.inventory_title, R.id.inventory_logo, R.id.inventory_quantity, R.id.inventory_data};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -167,15 +168,19 @@ public class InventoryFragment extends Fragment implements AbsListView.OnItemCli
         initImageLoader();
         mListView.setAdapter(adapter);
         adapter.setViewBinder(viewBinder);
-
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         getActivity().showDialog(MainActivity.DIALOG_LOADING);
         Volley.newRequestQueue(getActivity()).add(new StipArrayRequest(Request.Method.GET, StipRequest.THINGS,
                 null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray array) {
-                mListView.setEmptyView(view.findViewById(android.R.id.empty));
+                mListView.setEmptyView(getView().findViewById(android.R.id.empty));
                 getActivity().dismissDialog(MainActivity.DIALOG_LOADING);
                 data.clear();
                 for (int i = 0; i < array.length(); i++) {
@@ -183,8 +188,9 @@ public class InventoryFragment extends Fragment implements AbsListView.OnItemCli
                     Map<String, String> map = new HashMap();
                     map.put(FROM[0], o.optString("_id"));
                     map.put(FROM[1], o.optString("name"));
-                    map.put(FROM[2], o.optString("url"));
-                    map.put(FROM[3], "Quantity: 5");
+                    map.put(FROM[2], o.optString("image"));
+                    map.put(FROM[3], "Quantity: " + o.optInt("quantity"));
+                    map.put(FROM[4], o.toString());
                     data.add(map);
                 }
                 adapter.notifyDataSetChanged();
@@ -193,11 +199,14 @@ public class InventoryFragment extends Fragment implements AbsListView.OnItemCli
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                getActivity().dismissDialog(MainActivity.DIALOG_LOADING);
+                System.err.println("error = " + error);
+                try {
+                    getActivity().dismissDialog(MainActivity.DIALOG_LOADING);
+                } catch (Exception ex) {
+                }
                 Toast.makeText(getActivity(), R.string.error_loading, Toast.LENGTH_LONG).show();
             }
-        }));
-        return view;
+        }, ((StipApplication) getActivity().getApplication()).getToken()));
     }
 
     @Override
@@ -217,14 +226,6 @@ public class InventoryFragment extends Fragment implements AbsListView.OnItemCli
         mListener = null;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(InventoryContent.ITEMS.get(position).id);
-        }
-    }
 
     /**
      * The default content for this Fragment has a TextView that is shown when

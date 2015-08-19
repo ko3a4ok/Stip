@@ -3,6 +3,7 @@ package io.ololo.stip;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -14,14 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.TextView;
 
 import io.ololo.stip.fragments.InventoryFragment;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AbstractStipActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, InventoryFragment.OnFragmentInteractionListener {
 
 
-    public final static int DIALOG_LOADING = 1001;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -124,15 +125,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == DIALOG_LOADING) {
-            ProgressDialog mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            return mProgressDialog;
-        }
-        return super.onCreateDialog(id);
-    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -172,6 +164,12 @@ public class MainActivity extends AppCompatActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+    public void onInventoryClick(View v) {
+        Intent i = new Intent(this, InventoryDetailActivity.class);
+        i.putExtra("data", ((TextView)v.findViewById(R.id.inventory_data)).getText());
+        startActivity(i);
     }
 
 }

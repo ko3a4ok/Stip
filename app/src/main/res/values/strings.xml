@@ -20,4 +20,11 @@
     <string name="loading">Loading. Please wait</string>
     <string name="error_loading">Error loading. Please repeate loading later.</string>
     <string name="empty_msg">No result found for \"%s\"\nSearch with barcode scanner\n\nWould you like to search with barcode</string>
+    <string name="title_activity_inventory_detail">InventoryDetailActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="part_1">Name and Barcode</string>
+    <string name="part_2">Master data</string>
+    <string name="part_3">INVENTORY DATA</string>
+    <string name="error_save">Can\'t store right now. Please try again later</string>
 </resources>

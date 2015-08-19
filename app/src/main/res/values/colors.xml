@@ -2,4 +2,7 @@
 <resources>
     <color name="primary">#0bf</color>
     <color name="bg">#ddd</color>
+    <color name="detail_bg">#f1f5f8</color>
+    <color name="menu_bg">#f1f5f8</color>
+    <color name="menu_active_bg">#e3ebee</color>
 </resources>

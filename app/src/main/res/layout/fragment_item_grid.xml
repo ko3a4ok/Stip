@@ -27,6 +27,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:id="@android:id/list"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:horizontalSpacing="10dp"
