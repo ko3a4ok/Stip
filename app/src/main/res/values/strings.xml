@@ -27,4 +27,6 @@
     <string name="part_2">Master data</string>
     <string name="part_3">INVENTORY DATA</string>
     <string name="error_save">Can\'t store right now. Please try again later</string>
+    <string name="error_add">Can\'t add inventory now.</string>
+    <string name="quanity_pattern">Quantity: %d</string>
 </resources>

@@ -39,6 +39,7 @@
               android:layout_height="wrap_content"/>
 
     <ImageButton
+        android:id="@+id/inventory_add"
         android:src="@drawable/ic_blue_add"
         android:background="@android:color/transparent"
         android:layout_margin="5dp"

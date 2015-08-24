@@ -2,24 +2,18 @@ package io.ololo.stip.fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.LruCache;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +26,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -65,6 +60,8 @@ public class InventoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private String token;
+
     private List<Map<String, String>> data = new ArrayList();
 
     private OnFragmentInteractionListener mListener;
@@ -97,8 +94,8 @@ public class InventoryFragment extends Fragment {
     public InventoryFragment() {
     }
     ImageLoader imageLoader;
-    private static final String[] FROM = {"id", "name", "logo", "quantity", "data"};
-    private static final int[] TO = {R.id.inventory_id, R.id.inventory_title, R.id.inventory_logo, R.id.inventory_quantity, R.id.inventory_data};
+    private static final String[] FROM = {"id", "name", "logo", "quantity", "data", "add"};
+    private static final int[] TO = {R.id.inventory_id, R.id.inventory_title, R.id.inventory_logo, R.id.inventory_quantity, R.id.inventory_data, R.id.inventory_add};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,7 +105,7 @@ public class InventoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        token = ((StipApplication) getActivity().getApplication()).getToken();
         // TODO: Change Adapter to display your content
         adapter = new SimpleAdapter(getActivity(), data, R.layout.inventory_item, FROM, TO);
     }
@@ -121,7 +118,43 @@ public class InventoryFragment extends Fragment {
                 ((NetworkImageView)view).setImageUrl((String) data, imageLoader);
                 return true;
             }
+            if (view.getId() == R.id.inventory_add) {
+                view.setTag(data);
+                view.setOnClickListener(onAddQuantityListener);
+                return true;
+            }
             return false;
+        }
+    };
+
+    private View.OnClickListener onAddQuantityListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final int pos = Integer.parseInt((String) view.getTag());
+            final int q = Integer.parseInt(data.get(pos).get(FROM[3]).split(" ")[1]);
+            data.get(pos).put(FROM[3], getString(R.string.quanity_pattern, q + 1));
+            String id = data.get(pos).get(FROM[0]);
+            JSONObject o = new JSONObject();
+            try {
+                o.put("_id", id);
+                o.put("quantity", q+1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            adapter.notifyDataSetChanged();
+            Volley.newRequestQueue(getActivity()).add(new StipRequest(Request.Method.PUT, StipRequest.THINGS + id, o, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getActivity(), R.string.error_add, Toast.LENGTH_SHORT).show();
+                    data.get(pos).put(FROM[3], "Quantity: " + (q));
+                    adapter.notifyDataSetChanged();
+                }
+            }, token));
         }
     };
 
@@ -189,8 +222,9 @@ public class InventoryFragment extends Fragment {
                     map.put(FROM[0], o.optString("_id"));
                     map.put(FROM[1], o.optString("name"));
                     map.put(FROM[2], o.optString("image"));
-                    map.put(FROM[3], "Quantity: " + o.optInt("quantity"));
+                    map.put(FROM[3], getString(R.string.quanity_pattern, o.optInt("quantity")));
                     map.put(FROM[4], o.toString());
+                    map.put(FROM[5], "" + i);
                     data.add(map);
                 }
                 adapter.notifyDataSetChanged();
@@ -206,7 +240,7 @@ public class InventoryFragment extends Fragment {
                 }
                 Toast.makeText(getActivity(), R.string.error_loading, Toast.LENGTH_LONG).show();
             }
-        }, ((StipApplication) getActivity().getApplication()).getToken()));
+        }, token));
     }
 
     @Override
