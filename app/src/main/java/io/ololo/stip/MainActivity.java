@@ -1,10 +1,7 @@
 package io.ololo.stip;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.ololo.stip.fragments.InventoryFragment;
 
@@ -48,15 +48,19 @@ public class MainActivity extends AbstractStipActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
+    Fragment fragment = null;
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = null;
         switch (position) {
             case 2:
                 onSectionAttached(3);
-                fragment = InventoryFragment.newInstance(null, null);
+                fragment = InventoryFragment.newInstance(StipRequest.THINGS, false);
+                break;
+            case 3:
+                onSectionAttached(4);
+                fragment = InventoryFragment.newInstance(StipRequest.BASKET, false);
                 break;
             default:
                 fragment = PlaceholderFragment.newInstance(position+1);
@@ -70,6 +74,7 @@ public class MainActivity extends AbstractStipActivity
             R.string.title_section1,
             R.string.title_section2,
             R.string.title_section3,
+            R.string.basket,
             R.string.title_section4,
             R.string.title_section5,
             R.string.title_section6,
@@ -170,6 +175,20 @@ public class MainActivity extends AbstractStipActivity
         Intent i = new Intent(this, InventoryDetailActivity.class);
         i.putExtra("data", ((TextView)v.findViewById(R.id.inventory_data)).getText());
         startActivity(i);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NavigationDrawerFragment.VENDOR_REQUEST) {
+                try {
+                    ((InventoryFragment)fragment).addToBasket(new JSONObject(data.getStringExtra("data")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

@@ -53,12 +53,12 @@ public class InventoryFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_API = "param1";
+    private static final String ARG_VENDORS = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String apiPath;
+    private boolean vendors;
 
     private String token;
 
@@ -78,11 +78,11 @@ public class InventoryFragment extends Fragment {
     private SimpleAdapter adapter;
 
     // TODO: Rename and change types of parameters
-    public static InventoryFragment newInstance(String param1, String param2) {
+    public static InventoryFragment newInstance(String param1, boolean param2) {
         InventoryFragment fragment = new InventoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_API, param1);
+        args.putBoolean(ARG_VENDORS, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -102,8 +102,8 @@ public class InventoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            apiPath = getArguments().getString(ARG_API);
+            vendors = getArguments().getBoolean(ARG_VENDORS);
         }
         token = ((StipApplication) getActivity().getApplication()).getToken();
         // TODO: Change Adapter to display your content
@@ -118,6 +118,13 @@ public class InventoryFragment extends Fragment {
                 ((NetworkImageView)view).setImageUrl((String) data, imageLoader);
                 return true;
             }
+            if (vendors) {
+                if (view.getId() == R.id.inventory_add || view.getId() == R.id.inventory_quantity){
+                    view.setVisibility(View.INVISIBLE);
+                    return true;
+                }
+            }
+
             if (view.getId() == R.id.inventory_add) {
                 view.setTag(data);
                 view.setOnClickListener(onAddQuantityListener);
@@ -142,7 +149,7 @@ public class InventoryFragment extends Fragment {
                 e.printStackTrace();
             }
             adapter.notifyDataSetChanged();
-            Volley.newRequestQueue(getActivity()).add(new StipRequest(Request.Method.PUT, StipRequest.THINGS + id, o, new Response.Listener<JSONObject>() {
+            Volley.newRequestQueue(getActivity()).add(new StipRequest(Request.Method.PUT, apiPath + id, o, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
@@ -205,11 +212,24 @@ public class InventoryFragment extends Fragment {
         return view;
     }
 
+    private void addData(JSONObject o, int i) {
+        Map<String, String> map = new HashMap();
+        map.put(FROM[0], o.optString("_id"));
+        map.put(FROM[1], o.optString("name"));
+        map.put(FROM[2], o.optString("image"));
+        map.put(FROM[3], getString(R.string.quanity_pattern, o.optInt("quantity")));
+        map.put(FROM[4], o.toString());
+        map.put(FROM[5], "" + i);
+        data.add(map);
+    }
+
+    private boolean needRefresh = true;
     @Override
     public void onResume() {
         super.onResume();
+        if (!needRefresh) return;
         getActivity().showDialog(MainActivity.DIALOG_LOADING);
-        Volley.newRequestQueue(getActivity()).add(new StipArrayRequest(Request.Method.GET, StipRequest.THINGS,
+        Volley.newRequestQueue(getActivity()).add(new StipArrayRequest(Request.Method.GET, apiPath,
                 null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray array) {
@@ -218,14 +238,7 @@ public class InventoryFragment extends Fragment {
                 data.clear();
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject o = array.optJSONObject(i);
-                    Map<String, String> map = new HashMap();
-                    map.put(FROM[0], o.optString("_id"));
-                    map.put(FROM[1], o.optString("name"));
-                    map.put(FROM[2], o.optString("image"));
-                    map.put(FROM[3], getString(R.string.quanity_pattern, o.optInt("quantity")));
-                    map.put(FROM[4], o.toString());
-                    map.put(FROM[5], "" + i);
-                    data.add(map);
+                    addData(o, i);
                 }
                 adapter.notifyDataSetChanged();
 
@@ -241,6 +254,8 @@ public class InventoryFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.error_loading, Toast.LENGTH_LONG).show();
             }
         }, token));
+        if (apiPath.equals(StipRequest.BASKET))
+            needRefresh = false;
     }
 
     @Override
@@ -272,6 +287,40 @@ public class InventoryFragment extends Fragment {
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }
+    }
+
+    public void addToBasket(JSONObject o) {
+        System.err.println("OBJECt: " + o);
+        String id = o.optString("_id");
+        int idx = getIndexOf(id);
+        String uri = apiPath;
+        if (idx == -1) {
+            addData(o, data.size());
+            Volley.newRequestQueue(getActivity()).add(new StipRequest(Request.Method.POST, uri, o, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getActivity(), R.string.error_save, Toast.LENGTH_LONG).show();
+                }
+            }, ((StipApplication) getActivity().getApplication()).getToken()));
+
+        } else {
+            Toast.makeText(getActivity(), o.optString("name") + " is already in your basket.", Toast.LENGTH_LONG).show();
+            View fake = new View(getActivity());
+            fake.setTag("" + idx);
+            onAddQuantityListener.onClick(fake);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private int getIndexOf(String id) {
+        for (int i = 0; i < data.size(); i++)
+            if (data.get(i).get(FROM[0]).equals(id))
+                return i;
+        return -1;
     }
 
     /**

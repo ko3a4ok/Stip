@@ -37,6 +37,10 @@
             android:name=".InventoryDetailActivity"
             android:label="@string/title_activity_inventory_detail" >
         </activity>
+        <activity
+            android:name=".VendorsActivity"
+            android:label="@string/title_activity_vendrors" >
+        </activity>
     </application>
 
 </manifest>
