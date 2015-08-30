@@ -28,15 +28,6 @@ public class VendorsActivity extends AbstractStipActivity implements InventoryFr
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-
-        }
-        return true;
-    }
 
     @Override
     public void onFragmentInteraction(String id) {

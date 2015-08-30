@@ -32,4 +32,13 @@
     <string name="quanity_pattern">Quantity: %d</string>
     <string name="basket">My Basket</string>
     <string name="title_activity_vendrors">Vendor\'s equipment</string>
+    <string name="title_activity_customer_detail">Add New Customer</string>
+    <string name="add_customer_photo">Add Customer Photo</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="customer_address">Address</string>
+    <string name="customer_mobile">Mobile No</string>
+    <string name="customer_email">Email</string>
+    <string name="add_location">Add Location</string>
+    <string name="add">ADD</string>
+    <string name="save">Save</string>
 </resources>

@@ -6,7 +6,6 @@
     android:clickable="true"
     android:onClick="onInventoryClick"
     android:layout_height="120dp">
-    >
     <TextView android:id="@+id/inventory_id"
               android:visibility="gone"
               android:layout_width="wrap_content"

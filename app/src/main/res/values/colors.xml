@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#0bf</color>
+    <color name="primary_disable">#aef</color>
     <color name="bg">#ddd</color>
     <color name="detail_bg">#f1f5f8</color>
     <color name="menu_bg">#f1f5f8</color>

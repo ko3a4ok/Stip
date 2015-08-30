@@ -2,6 +2,7 @@ package io.ololo.stip.fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
@@ -35,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.ololo.stip.CustomerDetailActivity;
 import io.ololo.stip.MainActivity;
 import io.ololo.stip.R;
 import io.ololo.stip.StipApplication;
@@ -150,6 +153,12 @@ public class CustomersFragment extends Fragment {
         initImageLoader();
         mListView.setAdapter(adapter);
         adapter.setViewBinder(viewBinder);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(getActivity(), CustomerDetailActivity.class).putExtra("data", ((TextView) view.findViewById(R.id.customer_data)).getText()));
+            }
+        });
         // Set OnItemClickListener so we can be notified on item clicks
         return view;
     }
