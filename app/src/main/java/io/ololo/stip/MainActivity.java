@@ -17,6 +17,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.ololo.stip.fragments.CustomersFragment;
 import io.ololo.stip.fragments.InventoryFragment;
 
 public class MainActivity extends AbstractStipActivity
@@ -40,8 +41,10 @@ public class MainActivity extends AbstractStipActivity
         getSupportActionBar().setElevation(0);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        onSectionAttached(1);
 
+        mTitle = getTitle();
+        restoreActionBar();
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -54,6 +57,10 @@ public class MainActivity extends AbstractStipActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
+            case 0:
+                onSectionAttached(1);
+                fragment = CustomersFragment.newInstance();
+                break;
             case 2:
                 onSectionAttached(3);
                 fragment = InventoryFragment.newInstance(StipRequest.THINGS, false);
@@ -175,20 +182,6 @@ public class MainActivity extends AbstractStipActivity
         Intent i = new Intent(this, InventoryDetailActivity.class);
         i.putExtra("data", ((TextView)v.findViewById(R.id.inventory_data)).getText());
         startActivity(i);
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == NavigationDrawerFragment.VENDOR_REQUEST) {
-                try {
-                    ((InventoryFragment)fragment).addToBasket(new JSONObject(data.getStringExtra("data")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
 }

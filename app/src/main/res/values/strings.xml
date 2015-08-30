@@ -20,6 +20,7 @@
     <string name="loading">Loading. Please wait</string>
     <string name="error_loading">Error loading. Please repeate loading later.</string>
     <string name="empty_msg">No result found for \"%s\"\nSearch with barcode scanner\n\nWould you like to search with barcode</string>
+    <string name="empty_msg_customers">No result found for \"%s\"</string>
     <string name="title_activity_inventory_detail">InventoryDetailActivity</string>
 
     <string name="hello_world">Hello world!</string>
