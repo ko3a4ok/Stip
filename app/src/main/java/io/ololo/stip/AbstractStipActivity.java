@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -32,7 +33,14 @@ public class AbstractStipActivity extends AppCompatActivity {
         return super.onCreateDialog(id);
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+            if (!(this instanceof MainActivity)) onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

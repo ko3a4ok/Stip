@@ -18,6 +18,10 @@ public class StipRequest extends JsonObjectRequest{
     public static final String LOGIN = "auth/local";
     public static final String SIGN_UP = "api/users";
     public static final String THINGS = "api/inventory/";
+    public static final String BASKET = "api/basket/";
+    public static final String VENDORS = "api/vendors/";
+    public static final String CUSTOMERS = "api/clients/";
+    public static final String TASKS = "api/appointments/";
 
     private String token;
 

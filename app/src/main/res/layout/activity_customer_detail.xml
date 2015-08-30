@@ -1,0 +1,81 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context="io.ololo.stip.CustomerDetailActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+            <ImageButton
+                android:layout_gravity="center_horizontal"
+                android:src="@android:drawable/ic_menu_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/darker_gray"
+                android:text="@string/add_customer_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/customer_name"
+            android:hint="@string/customer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomerEdit"
+            android:layout_gravity="center_horizontal"/>
+        <EditText
+            android:id="@+id/customer_address"
+            android:hint="@string/customer_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomerEdit"
+            android:layout_gravity="center_horizontal"/>
+
+        <EditText
+            android:id="@+id/customer_mobile"
+            android:inputType="phone"
+            android:hint="@string/customer_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomerEdit"
+            android:layout_gravity="center_horizontal"/>
+
+        <EditText
+            android:inputType="textEmailAddress"
+            android:id="@+id/customer_email"
+            android:hint="@string/customer_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomerEdit"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomerEdit"
+            android:text="@string/add_location"
+            android:textColor="@android:color/white"
+            android:background="@color/primary_disable"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomerEdit"
+            android:layout_marginTop="30dp"
+            android:text="@string/add"
+            android:textColor="@android:color/white"
+            android:background="@color/primary"
+            android:onClick="onSave"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+</ScrollView>

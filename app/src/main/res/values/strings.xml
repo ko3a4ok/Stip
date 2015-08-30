@@ -20,6 +20,7 @@
     <string name="loading">Loading. Please wait</string>
     <string name="error_loading">Error loading. Please repeate loading later.</string>
     <string name="empty_msg">No result found for \"%s\"\nSearch with barcode scanner\n\nWould you like to search with barcode</string>
+    <string name="empty_msg_customers">No result found for \"%s\"</string>
     <string name="title_activity_inventory_detail">InventoryDetailActivity</string>
 
     <string name="hello_world">Hello world!</string>
@@ -27,4 +28,20 @@
     <string name="part_2">Master data</string>
     <string name="part_3">INVENTORY DATA</string>
     <string name="error_save">Can\'t store right now. Please try again later</string>
+    <string name="error_add">Can\'t add inventory now.</string>
+    <string name="quanity_pattern">Quantity: %d</string>
+    <string name="basket">My Basket</string>
+    <string name="title_activity_vendrors">Vendor\'s equipment</string>
+    <string name="title_activity_customer_detail">Add New Customer</string>
+    <string name="add_customer_photo">Add Customer Photo</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="customer_address">Address</string>
+    <string name="customer_mobile">Mobile No</string>
+    <string name="customer_email">Email</string>
+    <string name="add_location">Add Location</string>
+    <string name="add">ADD</string>
+    <string name="save">Save</string>
+    <string name="running">RUNNING</string>
+    <string name="completed">COMPLETED</string>
+    <string name="search_title">Search</string>
 </resources>
