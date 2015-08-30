@@ -41,4 +41,7 @@
     <string name="add_location">Add Location</string>
     <string name="add">ADD</string>
     <string name="save">Save</string>
+    <string name="running">RUNNING</string>
+    <string name="completed">COMPLETED</string>
+    <string name="search_title">Search</string>
 </resources>

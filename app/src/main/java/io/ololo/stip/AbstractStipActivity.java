@@ -37,8 +37,7 @@ public class AbstractStipActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
-                return true;
+            if (!(this instanceof MainActivity)) onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

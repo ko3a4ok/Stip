@@ -1,11 +1,15 @@
 package io.ololo.stip;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,9 +18,8 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import io.ololo.stip.fragments.AgendaFragment;
 import io.ololo.stip.fragments.CustomersFragment;
 import io.ololo.stip.fragments.InventoryFragment;
 
@@ -56,10 +59,16 @@ public class MainActivity extends AbstractStipActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        if (search != null) search.setVisible(false);
         switch (position) {
             case 0:
                 onSectionAttached(1);
                 fragment = CustomersFragment.newInstance();
+                break;
+            case 1:
+                onSectionAttached(2);
+                search.setVisible(true);
+                fragment = AgendaFragment.newInstance();
                 break;
             case 2:
                 onSectionAttached(3);
@@ -87,8 +96,10 @@ public class MainActivity extends AbstractStipActivity
             R.string.title_section6,
             R.string.title_section7,
     };
+
     public void onSectionAttached(int number) {
         mTitle = getString(titles[number-1]);
+        restoreActionBar();
     }
 
     public void restoreActionBar() {
@@ -96,16 +107,42 @@ public class MainActivity extends AbstractStipActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+
     }
 
+    MenuItem search;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        this.search = menu.findItem(R.id.search);
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+                SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
+                search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+                search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String query) {
+                       ((AgendaFragment)fragment).setFilterText(query);
+                        return true;
+
+                    }
+
+                });
+
+
+            }
             restoreActionBar();
             return true;
         }

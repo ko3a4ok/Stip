@@ -21,6 +21,7 @@ public class StipRequest extends JsonObjectRequest{
     public static final String BASKET = "api/basket/";
     public static final String VENDORS = "api/vendors/";
     public static final String CUSTOMERS = "api/clients/";
+    public static final String TASKS = "api/appointments/";
 
     private String token;
 

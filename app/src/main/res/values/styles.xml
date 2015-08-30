@@ -9,8 +9,16 @@
         <item name="android:editTextStyle">@style/App_EditTextStyle</item>
         <item name="android:autoCompleteTextViewStyle">@style/App_EditTextStyle</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="android:actionBarDivider">@android:color/transparent</item>
+        <item name="actionBarDivider">@android:color/transparent</item>
     </style>
 
+    <style name="MyActionBarTabs" parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:background">@drawable/tab</item>
+        <item name="background">@drawable/tab</item>
+    </style>
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
@@ -23,6 +31,11 @@
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:background">@color/primary</item>
         <item name="background">@color/primary</item>
+        <item name="android:backgroundStacked">@drawable/tab</item>
+        <item name="android:backgroundSplit">@drawable/tab</item>
+        <item name="backgroundStacked">@drawable/tab</item>
+        <item name="backgroundSplit">@drawable/tab</item>
+
     </style>
 
     <style name="App_EditTextStyle" parent="@android:style/Widget.EditText">
