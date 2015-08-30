@@ -5,11 +5,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -116,33 +116,34 @@ public class MainActivity extends AbstractStipActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         this.search = menu.findItem(R.id.search);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+            SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchView search = (SearchView) MenuItemCompat.getActionView(this.search);
+            search.setIconifiedByDefault(false);
+            search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String query) {
+                    ((AgendaFragment)fragment).setFilterText(query);
+                    return true;
+
+                }
+
+            });
+
+
+        }
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-
-                SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
-                search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-                search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String query) {
-                       ((AgendaFragment)fragment).setFilterText(query);
-                        return true;
-
-                    }
-
-                });
-
-
-            }
             restoreActionBar();
             return true;
         }

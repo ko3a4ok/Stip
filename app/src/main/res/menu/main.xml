@@ -6,9 +6,8 @@
             android:title="@string/search_title"
             android:icon="@android:drawable/ic_menu_search"
             android:visible="false"
-            app:showAsAction="collapseActionView|ifRoom"
-            android:showAsAction="collapseActionView|ifRoom"
-            app:actionViewClass="android.support.v7.widget.SearchView"
+            app:showAsAction="always|collapseActionView"
+            app:actionViewClass="io.ololo.stip.SearchView"
           />
     <item android:id="@+id/action_example"
           android:title="@string/action_example"

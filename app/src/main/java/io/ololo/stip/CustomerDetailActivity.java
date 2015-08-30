@@ -53,7 +53,8 @@ public class CustomerDetailActivity extends AbstractStipActivity {
         showDialog(DIALOG_LOADING);
         try {
             object.put("name", ((TextView) findViewById(R.id.customer_name)).getText());
-            object.put("photo", "http://www.homestayenglish.uk.com/wp-content/uploads/2013/12/no-photo.png");
+            if (!object.has("photo"))
+                object.put("photo", "http://www.homestayenglish.uk.com/wp-content/uploads/2013/12/no-photo.png");
             object.put("address", ((TextView) findViewById(R.id.customer_address)).getText());
             object.put("email", ((TextView) findViewById(R.id.customer_email)).getText());
             object.put("mobile", ((TextView) findViewById(R.id.customer_mobile)).getText());
