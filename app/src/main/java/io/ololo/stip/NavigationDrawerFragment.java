@@ -243,6 +243,8 @@ public class NavigationDrawerFragment extends Fragment {
         if (item.getItemId() == R.id.action_example) {
             if (mCurrentSelectedPosition == 0) {
                 startActivity(new Intent(getActivity(), CustomerDetailActivity.class));
+            } else if (mCurrentSelectedPosition == 1) {
+                startActivity(new Intent(getActivity(), AddTaskActivity.class));
             } else if (mCurrentSelectedPosition == 2) {
                 startActivity(new Intent(getActivity(), InventoryDetailActivity.class));
             } else if (mCurrentSelectedPosition == 3) {

@@ -6,4 +6,5 @@
     <color name="detail_bg">#f1f5f8</color>
     <color name="menu_bg">#f1f5f8</color>
     <color name="menu_active_bg">#e3ebee</color>
+    <color name="green_btn">#88b757</color>
 </resources>

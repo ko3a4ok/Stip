@@ -63,7 +63,7 @@ public class MainActivity extends AbstractStipActivity
         switch (position) {
             case 0:
                 onSectionAttached(1);
-                fragment = CustomersFragment.newInstance();
+                fragment = CustomersFragment.newInstance(false);
                 break;
             case 1:
                 onSectionAttached(2);

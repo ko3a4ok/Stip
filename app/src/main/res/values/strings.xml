@@ -44,4 +44,11 @@
     <string name="running">RUNNING</string>
     <string name="completed">COMPLETED</string>
     <string name="search_title">Search</string>
+    <string name="title_activity_add_task">Add New Agenda</string>
+    <string name="add_inventory">Add Inventory</string>
+    <string name="task_name">Task Name</string>
+    <string name="select_customer">Select Customer</string>
+    <string name="task_time">Time</string>
+    <string name="task_cost">Cost</string>
+    <string name="task_date">Date</string>
 </resources>

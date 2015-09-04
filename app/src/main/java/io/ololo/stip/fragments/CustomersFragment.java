@@ -52,6 +52,7 @@ import io.ololo.stip.StipRequest;
  * <p/>
  */
 public class CustomersFragment extends Fragment {
+    public static final String CHOOSER = "chooser";
     private String token;
 
     private List<Map<String, String>> data = new ArrayList();
@@ -69,9 +70,10 @@ public class CustomersFragment extends Fragment {
     private SimpleAdapter adapter;
 
     // TODO: Rename and change types of parameters
-    public static CustomersFragment newInstance() {
+    public static CustomersFragment newInstance(boolean chooser) {
         CustomersFragment fragment = new CustomersFragment();
         Bundle args = new Bundle();
+        args.putBoolean(CHOOSER, chooser);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,6 +88,7 @@ public class CustomersFragment extends Fragment {
     private static final String[] FROM = {"id", "name", "photo", "address", "data"};
     private static final int[] TO = {R.id.customer_id, R.id.customer_name, R.id.customer_photo, R.id.customer_address, R.id.customer_data};
 
+    private boolean chooser;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +96,7 @@ public class CustomersFragment extends Fragment {
         if (getArguments() != null) {
         }
         token = ((StipApplication) getActivity().getApplication()).getToken();
+        chooser = getArguments().getBoolean(CHOOSER, false);
         // TODO: Change Adapter to display your content
         adapter = new SimpleAdapter(getActivity(), data, R.layout.customer_item, FROM, TO);
     }
@@ -156,7 +160,13 @@ public class CustomersFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(getActivity(), CustomerDetailActivity.class).putExtra("data", ((TextView) view.findViewById(R.id.customer_data)).getText()));
+                String data = (String) ((TextView) view.findViewById(R.id.customer_data)).getText();
+                if (chooser) {
+                    getActivity().setResult(Activity.RESULT_OK, new Intent().putExtra("client", data));
+                    getActivity().finish();
+                    return;
+                }
+                startActivity(new Intent(getActivity(), CustomerDetailActivity.class).putExtra("data", data));
             }
         });
         // Set OnItemClickListener so we can be notified on item clicks
@@ -198,9 +208,9 @@ public class CustomersFragment extends Fragment {
                 System.err.println("error = " + error);
                 try {
                     getActivity().dismissDialog(MainActivity.DIALOG_LOADING);
+                    Toast.makeText(getActivity(), R.string.error_loading, Toast.LENGTH_LONG).show();
                 } catch (Exception ex) {
                 }
-                Toast.makeText(getActivity(), R.string.error_loading, Toast.LENGTH_LONG).show();
             }
         }, token));
     }

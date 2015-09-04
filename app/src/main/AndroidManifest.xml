@@ -45,6 +45,14 @@
             android:name=".CustomerDetailActivity"
             android:label="@string/title_activity_customer_detail" >
         </activity>
+        <activity
+            android:name=".AddTaskActivity"
+            android:label="@string/title_activity_add_task" >
+        </activity>
+        <activity
+            android:name=".ChooseCustomerActivity"
+            android:label="@string/select_customer" >
+        </activity>
     </application>
 
 </manifest>

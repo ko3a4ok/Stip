@@ -74,9 +74,11 @@ public class AgendaFragment extends Fragment {
     }
 
 
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -97,6 +99,7 @@ public class AgendaFragment extends Fragment {
                     }
                 });
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//        actionBar.setDisplayShowTitleEnabled(false);
 
         // Create a tab listener that is called when the user changes tabs.
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
@@ -118,7 +121,6 @@ public class AgendaFragment extends Fragment {
                             .setText(i == 0 ? R.string.running : R.string.completed)
                             .setTabListener(tabListener));
         }
-        initData();
         return pager;
     }
 
