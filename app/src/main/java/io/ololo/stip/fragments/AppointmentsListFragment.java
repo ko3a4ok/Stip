@@ -17,24 +17,15 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.ololo.stip.CustomerDetailActivity;
+import io.ololo.stip.DetailTaskActivity;
 import io.ololo.stip.MainActivity;
 import io.ololo.stip.R;
 import io.ololo.stip.StipApplication;
@@ -79,7 +70,7 @@ public class AppointmentsListFragment extends Fragment {
     public AppointmentsListFragment() {
     }
     ImageLoader imageLoader;
-    private static final String[] FROM = {
+    public static final String[] FROM = {
             "id",
             "date",
             "title",
@@ -87,7 +78,7 @@ public class AppointmentsListFragment extends Fragment {
             "customer_photo",
             "customer_address",
             "data"};
-    private static final int[] TO = {
+    public static final int[] TO = {
             R.id.customer_id,
             R.id.task_time,
             R.id.task_title,
@@ -145,7 +136,7 @@ public class AppointmentsListFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(getActivity(), CustomerDetailActivity.class).putExtra("data", ((TextView) view.findViewById(R.id.customer_data)).getText()));
+                startActivity(new Intent(getActivity(), DetailTaskActivity.class).putExtra("data", ((TextView) view.findViewById(R.id.customer_data)).getText()));
             }
         });
         // Set OnItemClickListener so we can be notified on item clicks

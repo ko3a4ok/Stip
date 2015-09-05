@@ -233,7 +233,7 @@ public class InventoryFragment extends Fragment {
         map.put(FROM[0], o.optString("_id"));
         map.put(FROM[1], o.optString("name"));
         map.put(FROM[2], o.optString("image"));
-        map.put(FROM[3], getString(R.string.quanity_pattern, o.optInt("quantity")));
+        map.put(FROM[3], "Quantity: " + o.optInt("quantity", 0));
         map.put(FROM[4], o.toString());
         map.put(FROM[5], "" + i);
         data.add(map);

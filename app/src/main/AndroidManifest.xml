@@ -57,6 +57,10 @@
             android:name=".ChooseInventoryActivity"
             android:label="@string/title_activity_choose_inventory" >
         </activity>
+        <activity
+            android:name=".DetailTaskActivity"
+            android:label="@string/title_activity_detail_task" >
+        </activity>
     </application>
 
 </manifest>

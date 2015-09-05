@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -187,13 +188,30 @@ public class AgendaFragment extends Fragment {
         List<Map<String, String>> completed = new ArrayList();
         for (int i = 0; i < arr.length(); i++) {
             JSONObject o = arr.optJSONObject(i);
+            try {
+                o.put("customer_photo", users.get(o.optString("clientRef")).optString("photo"));
+                o.put("customer_name", users.get(o.optString("clientRef")).optString("name"));
+                o.put("customer_address", users.get(o.optString("clientRef")).optString("address"));
+                o.put("date", getDate(o.optString("date")));
+                o.put("title", o.optString("name"));
+                JSONArray inventories = new JSONArray();
+                JSONArray inventoryRef = o.optJSONArray("inventoryRef");
+                JSONArray basketRef = o.optJSONArray("basketRef");
+                for (int j = 0; j < inventoryRef.length(); j++)
+                    inventories.put(this.inventories.get(inventoryRef.optString(j)));
+                for (int j = 0; j < basketRef.length(); j++)
+                    inventories.put(this.basket.get(basketRef.optString(j)));
+                o.put("inventories", inventories);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             Map<String, String> m = new HashMap();
             m.put("id", o.optString("_id"));
-            m.put("date", getDate(o.optString("date")));
-            m.put("title", o.optString("name"));
-            m.put("customer_photo", users.get(o.optString("clientRef")).optString("photo"));
-            m.put("customer_name", users.get(o.optString("clientRef")).optString("name"));
-            m.put("customer_address", users.get(o.optString("clientRef")).optString("address"));
+            m.put("date", o.optString("date"));
+            m.put("title", o.optString("title"));
+            m.put("customer_photo", o.optString("customer_photo"));
+            m.put("customer_name", o.optString("customer_name"));
+            m.put("customer_address", o.optString("customer_address"));
             m.put("data", o.toString());
             (TextUtils.equals("complete", o.optString("status")) ? completed: running).add(m);
         }

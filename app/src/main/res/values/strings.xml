@@ -52,4 +52,10 @@
     <string name="task_cost">Cost</string>
     <string name="task_date">Date</string>
     <string name="title_activity_choose_inventory">Select Inventories</string>
+    <string name="title_activity_detail_task">DetailTaskActivity</string>
+    <string name="item_puchased">Item Purchased</string>
+    <string name="stop">Stop</string>
+    <string name="item_cost">Item Cost</string>
+    <string name="service_charge">Service Charge</string>
+    <string name="total_cost">Total Cost</string>
 </resources>

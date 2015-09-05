@@ -3,7 +3,6 @@ package io.ololo.stip;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
