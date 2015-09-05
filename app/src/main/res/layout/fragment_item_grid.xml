@@ -4,7 +4,12 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="io.ololo.stip.fragments.InventoryFragment">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
     <FrameLayout
+
         android:background="@color/primary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -20,9 +25,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
     </FrameLayout>
-
     <GridView
-        android:layout_marginTop="61dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -33,7 +36,7 @@
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
         android:numColumns="2"/>
-
+    </LinearLayout>
     <TextView
         android:textColor="@android:color/darker_gray"
         android:id="@android:id/empty"

@@ -17,20 +17,29 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
-public class AddTaskActivity extends AbstractStipActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+import io.ololo.stip.fragments.InventoryFragment;
+
+public class AddTaskActivity extends AbstractStipActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, InventoryFragment.OnFragmentInteractionListener {
     public static final int CUSTOMER = 123;
+    public static final int INVENTORY = 124;
     public static final int DIALOG_DATE = 1001;
     public static final int DIALOG_TIME = 1002;
     JSONObject client;
+    InventoryFragment inventories;
+    JSONArray inventoriesArray = new JSONArray();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        inventories = InventoryFragment.newInstance(null, true);
+        getSupportFragmentManager().beginTransaction().add(R.id.inventories, inventories).commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViewById(R.id.task_client).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,8 +62,9 @@ public class AddTaskActivity extends AbstractStipActivity implements TimePickerD
     }
 
     public void onAddInventory(View v) {
-
+        startActivityForResult(new Intent(this, ChooseInventoryActivity.class), INVENTORY);
     }
+
     public void onStart(View v) {
         // {data={"basketRef":[],
         // "__v":0,"
@@ -67,7 +77,15 @@ public class AddTaskActivity extends AbstractStipActivity implements TimePickerD
             o.put("status", "TODO");
             o.put("date", String.format("%sT%s:00.000Z", ((TextView) findViewById(R.id.task_date)).getText().toString(), ((TextView) findViewById(R.id.task_time)).getText().toString()));
             o.put("name", ((EditText)findViewById(R.id.task_title)).getText().toString());
-            o.put("cost", Double.parseDouble(((EditText)findViewById(R.id.task_cost)).getText().toString()));
+            o.put("cost", Double.parseDouble(((EditText) findViewById(R.id.task_cost)).getText().toString()));
+            JSONArray inventoryRef = new JSONArray();
+            JSONArray basketRef = new JSONArray();
+            o.put("inventoryRef", inventoryRef);
+            o.put("basketRef", basketRef);
+            for (int i = 0; i < inventoriesArray.length(); i++) {
+                JSONObject inv = inventoriesArray.optJSONObject(i);
+                (inv.optBoolean("basket") ? basketRef: inventoryRef).put(inv.optString("_id"));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -110,6 +128,16 @@ public class AddTaskActivity extends AbstractStipActivity implements TimePickerD
             }
             return;
         }
+        if (requestCode == INVENTORY && resultCode == RESULT_OK) {
+            try {
+                JSONObject o = new JSONObject(data.getStringExtra("data"));
+                o.put("basket", data.getBooleanExtra("basket", false));
+                inventoriesArray.put(o);
+                inventories.updateData(inventoriesArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -139,5 +167,14 @@ public class AddTaskActivity extends AbstractStipActivity implements TimePickerD
     @Override
     public void onDateSet(DatePicker datePicker, int y, int m, int d) {
         ((TextView)findViewById(R.id.task_date)).setText(String.format("%d-%02d-%02d", y, m + 1, d));
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+        inventories.updateData(inventoriesArray);
+    }
+
+    public void onInventoryClick(View v) {
+
     }
 }

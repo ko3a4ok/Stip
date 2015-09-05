@@ -19,6 +19,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.ololo.stip.fragments.AgendaFragment;
 import io.ololo.stip.fragments.CustomersFragment;
 import io.ololo.stip.fragments.InventoryFragment;
@@ -220,6 +223,19 @@ public class MainActivity extends AbstractStipActivity
         Intent i = new Intent(this, InventoryDetailActivity.class);
         i.putExtra("data", ((TextView)v.findViewById(R.id.inventory_data)).getText());
         startActivity(i);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NavigationDrawerFragment.VENDOR_REQUEST) {
+                try {
+                    ((InventoryFragment)fragment).addToBasket(new JSONObject(data.getStringExtra("data")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

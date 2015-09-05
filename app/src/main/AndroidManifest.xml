@@ -53,6 +53,10 @@
             android:name=".ChooseCustomerActivity"
             android:label="@string/select_customer" >
         </activity>
+        <activity
+            android:name=".ChooseInventoryActivity"
+            android:label="@string/title_activity_choose_inventory" >
+        </activity>
     </application>
 
 </manifest>

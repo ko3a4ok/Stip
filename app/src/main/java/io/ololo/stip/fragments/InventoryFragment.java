@@ -10,6 +10,7 @@ import android.support.v4.util.LruCache;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -202,12 +203,27 @@ public class InventoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_item, container, false);
+        if (apiPath == null) {
+            view.findViewById(R.id.search).setVisibility(View.GONE);
+        }
         ((EditText)view.findViewById(R.id.search)).addTextChangedListener(searchTextWatcher);
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         initImageLoader();
         mListView.setAdapter(adapter);
         adapter.setViewBinder(viewBinder);
+        if (mListener != null) {
+            mListener.onFragmentInteraction(null);
+        }
         // Set OnItemClickListener so we can be notified on item clicks
         return view;
     }
@@ -228,20 +244,16 @@ public class InventoryFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (!needRefresh) return;
+        if (apiPath == null) return;
         getActivity().showDialog(MainActivity.DIALOG_LOADING);
         Volley.newRequestQueue(getActivity()).add(new StipArrayRequest(Request.Method.GET, apiPath,
                 null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray array) {
+                if (getView() == null) return;
                 mListView.setEmptyView(getView().findViewById(android.R.id.empty));
                 getActivity().dismissDialog(MainActivity.DIALOG_LOADING);
-                data.clear();
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject o = array.optJSONObject(i);
-                    addData(o, i);
-                }
-                adapter.notifyDataSetChanged();
-
+                updateData(array);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -256,6 +268,15 @@ public class InventoryFragment extends Fragment {
         }, token));
         if (apiPath.equals(StipRequest.BASKET))
             needRefresh = false;
+    }
+
+    public void updateData(JSONArray array) {
+        data.clear();
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject o = array.optJSONObject(i);
+            addData(o, i);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

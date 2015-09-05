@@ -182,6 +182,7 @@ public class AgendaFragment extends Fragment {
     }
 
     private void updateItems(JSONArray arr) {
+        System.err.println("ARRAY: " + arr);
         List<Map<String, String>> running = new ArrayList();
         List<Map<String, String>> completed = new ArrayList();
         for (int i = 0; i < arr.length(); i++) {
@@ -189,7 +190,7 @@ public class AgendaFragment extends Fragment {
             Map<String, String> m = new HashMap();
             m.put("id", o.optString("_id"));
             m.put("date", getDate(o.optString("date")));
-            m.put("title", o.optString("name", "Web server sucks"));
+            m.put("title", o.optString("name"));
             m.put("customer_photo", users.get(o.optString("clientRef")).optString("photo"));
             m.put("customer_name", users.get(o.optString("clientRef")).optString("name"));
             m.put("customer_address", users.get(o.optString("clientRef")).optString("address"));
